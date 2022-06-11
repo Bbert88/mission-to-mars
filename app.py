@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_pymongo import PyMongo
 import Scraping
+import jinja2
 
 #set up flask
 app = Flask(__name__)
