@@ -17,7 +17,8 @@ def scrape_all():
       "news_paragraph": news_paragraph,
       "featured_image": featured_image(browser),
       "facts": mars_facts(),
-      "last_modified": dt.datetime.now()
+      "last_modified": dt.datetime.now(),
+      "hemispheres": mars_hemispheres(browser)
     }
     
     #stop webdriver and return data
@@ -93,6 +94,44 @@ def mars_facts():
     #convert df to html, add bootstrap
     return df.to_html(classes="table table-striped")
     
+def mars_hemispheres(browser):
+    url = 'https://marshemispheres.com/'
+    browser.visit(url)
+    hemisphere_image_urls = []
+
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+    hem_html = browser.html
+    hem_soup = soup(hem_html, 'html.parser')
+
+    items = hem_soup.find_all("div", class_="item")
+
+    for i in items:
+        #ectract title for each hemisphere
+        title = i.find("h3").get_text()
+    
+        #get url of each hemisphere image item and visit that url
+        tn_url = i.find("a")['href']
+        full_tn_url = url + tn_url
+        browser.visit(full_tn_url)
+    
+        #create new soup object to parse html
+        img_html=browser.html
+        img_soup=soup(img_html, 'html.parser')
+    
+        #extract partial url of full resolution jpg image
+        dloads_url = img_soup.find("div", class_="downloads").find("a")['href']
+
+        #construct full url to full resolution jpb image
+        jpg_url = url + dloads_url
+    
+        #save in to dictionary to be added to list of hemispheres
+        hemispheres = {
+            "img_url": jpg_url,
+            "title": title
+        
+        }
+        hemisphere_image_urls.append(hemispheres)
+    return hemisphere_image_urls
 
 if __name__ == "__main__":
     print(scrape_all())
