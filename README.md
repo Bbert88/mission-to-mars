@@ -8,7 +8,7 @@ This project involved web scraping multiple reputable websites to gather Mars re
 
 ### Mars News
 
-The script visits the [Red Planet Science Website](https:/redplanetscience.com) and scrapes the most recent headline which will then be featured on the web applications. 
+The script visits the [Red Planet Science Website](https:/redplanetscience.com) and scrapes the most recent headline which will then be featured on the web application.
 
 ### Mars Image
 
